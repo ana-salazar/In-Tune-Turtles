@@ -11,6 +11,12 @@ combined_df = pd.concat([xls.parse(sheet) for sheet in data_sheets], ignore_inde
 # Clean artist names
 combined_df['artists'] = combined_df['artists'].astype(str).str.strip()
 
+#Drop if missing
+combined_df = combined_df.dropna(subset=['artists', 'songs'])
+
+#Check and remove duplicates
+combined_df = combined_df.drop_duplicates(subset=['artists', 'songs'])
+
 # Count how often each artist appears
 top_artists = combined_df['artists'].value_counts().head(20)
 print("\n🎤 Most Frequent Artists in Top 50:")
